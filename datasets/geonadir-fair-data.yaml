@@ -1,8 +1,8 @@
-Name: GeoNadir Fair Geo
+Name: GeoNadir Fair Data
 Description: |
   <br/>
   <br/>
-  GeoNadir Fair Geo is an open collection of UAV (drone) survey datasets
+  GeoNadir Fair Data is an open collection of UAV (drone) survey datasets
   contributed through the GeoNadir platform and published as cloud-native
   geospatial files with a STAC-compatible catalog.
   <br/>
@@ -48,41 +48,41 @@ License: |
   material for any purpose, provided you give appropriate credit to GeoNadir
   and the contributing data provider. Full license text is available at
   https://creativecommons.org/licenses/by/4.0/
-Citation: 'GeoNadir Fair Geo was accessed on DATE from https://registry.opendata.aws/geonadir-fair-geo. GeoNadir. 2026. GeoNadir Fair Geo: open UAV survey datasets.'
+Citation: 'GeoNadir Fair Data was accessed on DATE from https://registry.opendata.aws/geonadir-fair-data. GeoNadir. 2026. GeoNadir Fair Data: open UAV survey datasets.'
 RegistryEntryAdded: '2026-08-24'
 RegistryEntryLastModified: '2026-08-24'
 Resources:
-  - Description: GeoNadir Fair Geo UAV survey datasets and STAC catalog (Cloud Optimized GeoTIFFs, raw image ZIPs, and item metadata)
-    ARN: arn:aws:s3:::geonadir-fair-geo
+  - Description: GeoNadir Fair Data UAV survey datasets and STAC catalog (Cloud Optimized GeoTIFFs, raw image ZIPs, and item metadata)
+    ARN: arn:aws:s3:::geonadir-fair-data
     Region: ap-southeast-2
     Type: S3 Bucket
     Explore:
-      - '[Browse GeoNadir Fair Geo](https://data.geonadir.com/fairgeo)'
-      - '[STAC catalog](https://data.geonadir.com/stac/collections/geonadir-fair-geo)'
+      - '[Browse GeoNadir Fair Data](https://data.geonadir.com/fairgeo)'
+      - '[STAC catalog](https://data.geonadir.com/stac/collections/geonadir-fair-data)'
 # DRAFT NOTE (remove before taking PR out of draft):
 #   1. Confirm the final bucket name once the AWS Open Data CloudFormation stack
 #      has been created in the dedicated open-data account. If the name differs
-#      from "geonadir-fair-geo", update the ARN above and every s3:// reference
+#      from "geonadir-fair-data", update the ARN above and every s3:// reference
 #      in OPEN_DATA_STRUCTURE.md and the tutorial notebook.
 #   2. The CloudFormation template also provisions an SNS topic for S3
 #      object-creation notifications. After the stack exists, add a second
 #      Resources entry for it, e.g.:
-#        - Description: New object notifications for GeoNadir Fair Geo (Lambda and SQS protocols only)
+#        - Description: New object notifications for GeoNadir Fair Data (Lambda and SQS protocols only)
 #          ARN: arn:aws:sns:ap-southeast-2:209003640346:<topic-name>
 #          Region: ap-southeast-2
 #          Type: SNS Topic
 DataAtWork:
   Tutorials:
-    - Title: 'Get To Know A Dataset: GeoNadir Fair Geo'
-      URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-geo/get-to-know-a-dataset.ipynb
-      NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-geo/get-to-know-a-dataset.ipynb
+    - Title: 'Get To Know A Dataset: GeoNadir Fair Data'
+      URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb
+      NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb
       AuthorName: GeoNadir
       AuthorURL: https://geonadir.com/
       Services:
         - Amazon S3
-    - Title: 'Get To Know A Dataset: GeoNadir Fair Geo (STAC catalog)'
-      URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-geo/get-to-know-a-dataset-stac.ipynb
-      NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-geo/get-to-know-a-dataset-stac.ipynb
+    - Title: 'Get To Know A Dataset: GeoNadir Fair Data (STAC catalog)'
+      URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
+      NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
       AuthorName: GeoNadir
       AuthorURL: https://geonadir.com/
       Services:

@@ -1,15 +1,15 @@
-# GeoNadir Fair Geo Dataset Structure and Content
+# GeoNadir Fair Data Dataset Structure and Content
 
 Status: Draft for AWS Open Data Sponsorship Program application
 
-This document describes the planned public structure for **GeoNadir Fair Geo**,
+This document describes the planned public structure for **GeoNadir Fair Data**,
 a proposed open-data collection of UAV survey datasets published through
 AWS-hosted cloud-native geospatial files and a STAC-compatible catalog.
 
 The intended collection ID is:
 
 ```text
-geonadir-fair-geo
+geonadir-fair-data
 ```
 
 This document is forward-looking. It describes the public dataset structure
@@ -18,7 +18,7 @@ GeoNadir's internal workspace, project, or permission model.
 
 ## Overview
 
-GeoNadir Fair Geo will provide openly licensed UAV survey datasets contributed
+GeoNadir Fair Data will provide openly licensed UAV survey datasets contributed
 through GeoNadir and structured for discovery, cloud-native access, and
 geospatial analysis.
 
@@ -54,8 +54,8 @@ Planned public entry points:
 
 ```text
 https://data.geonadir.com/stac/
-https://data.geonadir.com/stac/collections/geonadir-fair-geo
-https://data.geonadir.com/stac/collections/geonadir-fair-geo/items
+https://data.geonadir.com/stac/collections/geonadir-fair-data
+https://data.geonadir.com/stac/collections/geonadir-fair-data/items
 https://data.geonadir.com/stac/search
 ```
 
@@ -85,11 +85,11 @@ through STAC, so the S3 prefixes do not need to encode country, region, year, or
 other search facets.
 
 ```text
-s3://geonadir-fair-geo/
+s3://geonadir-fair-data/
   stac/
     catalog.json
     collections/
-      geonadir-fair-geo/
+      geonadir-fair-data/
         collection.json
         items/
           {item_id}.json
@@ -127,11 +127,11 @@ QGIS, and cloud-native geospatial workflows without downloading the full file.
 
 ## STAC Model
 
-GeoNadir Fair Geo will use the following STAC model:
+GeoNadir Fair Data will use the following STAC model:
 
 ```text
 Catalog
-  Collection: geonadir-fair-geo
+  Collection: geonadir-fair-data
     Item: one public GeoNadir dataset
       Assets: metadata, raw images, and optional processed products
 ```
@@ -148,13 +148,13 @@ Item describes the published geospatial dataset and its downloadable assets.
 The collection ID will be:
 
 ```text
-geonadir-fair-geo
+geonadir-fair-data
 ```
 
 The collection title will be:
 
 ```text
-GeoNadir Fair Geo
+GeoNadir Fair Data
 ```
 
 The collection will describe open UAV survey datasets contributed through
@@ -164,9 +164,9 @@ Planned collection-level fields:
 
 | Field | Planned Value |
 | --- | --- |
-| `id` | `geonadir-fair-geo` |
+| `id` | `geonadir-fair-data` |
 | `type` | `Collection` |
-| `title` | `GeoNadir Fair Geo` |
+| `title` | `GeoNadir Fair Data` |
 | `description` | Public UAV survey datasets and related products contributed through GeoNadir |
 | `license` | `CC-BY-4.0` |
 | `extent.spatial` | Overall spatial extent of all published items |
@@ -216,7 +216,7 @@ Top-level item fields:
 | `type` | `Feature` |
 | `stac_version` | STAC version used by the catalog |
 | `id` | Stable public item identifier |
-| `collection` | `geonadir-fair-geo` |
+| `collection` | `geonadir-fair-data` |
 | `bbox` | Bounding box in WGS84 longitude/latitude |
 | `geometry` | Bbox-derived GeoJSON geometry in WGS84 |
 | `properties` | Searchable and descriptive item metadata |
@@ -365,19 +365,19 @@ Example asset definition:
 ```json
 "assets": {
   "metadata": {
-    "href": "s3://geonadir-fair-geo/datasets/{item_id}/metadata.json",
+    "href": "s3://geonadir-fair-data/datasets/{item_id}/metadata.json",
     "type": "application/json",
     "roles": ["metadata"],
     "title": "Dataset metadata"
   },
   "raw_images": {
-    "href": "s3://geonadir-fair-geo/datasets/{item_id}/raw-images.zip",
+    "href": "s3://geonadir-fair-data/datasets/{item_id}/raw-images.zip",
     "type": "application/zip",
     "roles": ["source"],
     "title": "Original raw images"
   },
   "orthomosaic": {
-    "href": "s3://geonadir-fair-geo/datasets/{item_id}/orthomosaic.tif",
+    "href": "s3://geonadir-fair-data/datasets/{item_id}/orthomosaic.tif",
     "type": "image/tiff; application=geotiff; profile=cloud-optimized",
     "roles": ["data"],
     "title": "RGB orthomosaic",
@@ -462,7 +462,7 @@ will define their own band order at asset level.
 
 ## STAC Extensions
 
-GeoNadir Fair Geo will use STAC extensions only where they add useful,
+GeoNadir Fair Data will use STAC extensions only where they add useful,
 standardized meaning.
 
 Likely first-pass extensions:
@@ -527,7 +527,7 @@ Example conceptual STAC search request:
 
 ```json
 {
-  "collections": ["geonadir-fair-geo"],
+  "collections": ["geonadir-fair-data"],
   "datetime": "2024-01-01T00:00:00Z/2024-12-31T23:59:59Z",
   "intersects": {
     "type": "Polygon",
@@ -552,7 +552,7 @@ Example conceptual STAC search request:
   "type": "Feature",
   "stac_version": "1.1.0",
   "id": "{item_id}",
-  "collection": "geonadir-fair-geo",
+  "collection": "geonadir-fair-data",
   "bbox": [151.0, -34.0, 151.2, -33.8],
   "geometry": {
     "type": "Polygon",
@@ -591,19 +591,19 @@ Example conceptual STAC search request:
   },
   "assets": {
     "metadata": {
-      "href": "s3://geonadir-fair-geo/datasets/{item_id}/metadata.json",
+      "href": "s3://geonadir-fair-data/datasets/{item_id}/metadata.json",
       "type": "application/json",
       "roles": ["metadata"],
       "title": "Dataset metadata"
     },
     "raw_images": {
-      "href": "s3://geonadir-fair-geo/datasets/{item_id}/raw-images.zip",
+      "href": "s3://geonadir-fair-data/datasets/{item_id}/raw-images.zip",
       "type": "application/zip",
       "roles": ["source"],
       "title": "Original raw images"
     },
     "orthomosaic": {
-      "href": "s3://geonadir-fair-geo/datasets/{item_id}/orthomosaic.tif",
+      "href": "s3://geonadir-fair-data/datasets/{item_id}/orthomosaic.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
       "roles": ["data"],
       "title": "RGB orthomosaic",
@@ -618,7 +618,7 @@ Example conceptual STAC search request:
   "links": [
     {
       "rel": "collection",
-      "href": "https://data.geonadir.com/stac/collections/geonadir-fair-geo"
+      "href": "https://data.geonadir.com/stac/collections/geonadir-fair-data"
     },
     {
       "rel": "root",
@@ -626,7 +626,7 @@ Example conceptual STAC search request:
     },
     {
       "rel": "self",
-      "href": "https://data.geonadir.com/stac/collections/geonadir-fair-geo/items/{item_id}"
+      "href": "https://data.geonadir.com/stac/collections/geonadir-fair-data/items/{item_id}"
     }
   ]
 }
@@ -639,7 +639,7 @@ initial application stage.
 
 The notebook will demonstrate how to:
 
-- Open the GeoNadir Fair Geo STAC catalog.
+- Open the GeoNadir Fair Data STAC catalog.
 - Search by capture date and area of interest.
 - Filter by IUCN habitat classification.
 - Inspect item metadata and asset links.
