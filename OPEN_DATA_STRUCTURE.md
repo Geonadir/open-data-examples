@@ -63,6 +63,21 @@ The STAC catalog is the discovery layer. The S3 bucket is the file storage
 layer. Users should not need to understand the internal bucket layout to search
 for datasets.
 
+### Two access paths (STAC is optional)
+
+The files are addressable directly on S3 through the stable
+`datasets/{item_id}/` key convention described below. This means the data is
+fully usable with plain AWS tooling (`boto3`, `rasterio`, GDAL, QGIS) **without
+STAC** — list the `datasets/` prefix, read a survey's `metadata.json`, and open
+its COGs by their known keys.
+
+STAC is a discovery **enhancement** layered on top of that S3 layout, providing
+search by date, area of interest, and habitat. GeoNadir may bring the STAC
+endpoint online **after** the data itself is published, so tutorials and
+integrations should not assume STAC is available at launch. The repository ships
+two tutorial notebooks accordingly: a basic-AWS/S3 notebook that runs against
+the bucket alone, and a STAC notebook for when the catalog is live.
+
 ## Planned S3 Layout
 
 The planned S3 layout is deliberately simple. Dataset discovery will happen
