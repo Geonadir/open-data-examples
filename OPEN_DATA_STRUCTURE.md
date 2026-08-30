@@ -1,8 +1,8 @@
-# GeoNadir Fair Data Dataset Structure and Content
+# GeoNadir FAIR Data Dataset Structure and Content
 
 Status: Draft for AWS Open Data Sponsorship Program application
 
-This document describes the planned public structure for **GeoNadir Fair Data**,
+This document describes the planned public structure for **GeoNadir FAIR Data**,
 a proposed open-data collection of UAV survey datasets published through
 AWS-hosted cloud-native geospatial files and a STAC-compatible catalog.
 
@@ -18,7 +18,7 @@ GeoNadir's internal workspace, project, or permission model.
 
 ## Overview
 
-GeoNadir Fair Data will provide openly licensed UAV survey datasets contributed
+GeoNadir FAIR Data will provide openly licensed UAV survey datasets contributed
 through GeoNadir and structured for discovery, cloud-native access, and
 geospatial analysis.
 
@@ -127,7 +127,7 @@ QGIS, and cloud-native geospatial workflows without downloading the full file.
 
 ## STAC Model
 
-GeoNadir Fair Data will use the following STAC model:
+GeoNadir FAIR Data will use the following STAC model:
 
 ```text
 Catalog
@@ -154,7 +154,7 @@ geonadir-fair-data
 The collection title will be:
 
 ```text
-GeoNadir Fair Data
+GeoNadir FAIR Data
 ```
 
 The collection will describe open UAV survey datasets contributed through
@@ -166,7 +166,7 @@ Planned collection-level fields:
 | --- | --- |
 | `id` | `geonadir-fair-data` |
 | `type` | `Collection` |
-| `title` | `GeoNadir Fair Data` |
+| `title` | `GeoNadir FAIR Data` |
 | `description` | Public UAV survey datasets and related products contributed through GeoNadir |
 | `license` | `CC-BY-4.0` |
 | `extent.spatial` | Overall spatial extent of all published items |
@@ -462,7 +462,7 @@ will define their own band order at asset level.
 
 ## STAC Extensions
 
-GeoNadir Fair Data will use STAC extensions only where they add useful,
+GeoNadir FAIR Data will use STAC extensions only where they add useful,
 standardized meaning.
 
 Likely first-pass extensions:
@@ -632,6 +632,73 @@ Example conceptual STAC search request:
 }
 ```
 
+## Per-dataset `metadata.json` — field → source contract
+
+`metadata.json` **is the STAC Item** for a dataset (minus the server-side `links`,
+which the STAC catalog build adds). The direct-S3 notebook reads it as
+`props = m.get('properties', m)`, so the same file serves both access paths and
+the STAC build is a gather-and-wrap of these files. A committed reference file
+lives at [`datasets/geonadir-fair-data/metadata.template.json`](datasets/geonadir-fair-data/metadata.template.json).
+
+Every field is buildable at publish time from one `Dataset` row plus its related
+records — no new capture pipeline. Sources below are from `geonadir-backend`.
+Legend: **direct** column · **derived** (join/count/parse) · **if-present**
+(emit only when populated).
+
+| `metadata.json` field | Source | Kind |
+| --- | --- | --- |
+| `id` | `Dataset.id` + `Dataset.uav_uid` → `{id}-{uav_uid}` | direct |
+| `properties.title` | `Dataset.dataset_name` | direct |
+| `properties.description` | `Dataset.description` | direct |
+| `properties.datetime` / `geonadir:capture_datetime` | `Dataset.captured_date` | direct |
+| `properties.created` / `geonadir:upload_datetime` | `Dataset.created_at` | direct |
+| `properties.updated` / `geonadir:modified_datetime` | `Dataset.updated_at` | direct |
+| `properties.license` | constant `CC-BY-4.0` | constant |
+| `bbox` / `geometry` | `Dataset.extra_json["bbox"]` — **reorder, see traps** | direct + transform |
+| `properties.geonadir:geometry_source` | constant `bbox` | constant |
+| `properties.gsd` | `Metadata.metadata["gsd"]` | if-present |
+| `properties.geonadir:area_m2` | `Metadata.metadata["area_covered"]` — **confirm units** | if-present |
+| `properties.geonadir:raw_image_count` | `Dataset.imageupload.count()` (COUNT of `PostImage`) | derived |
+| `properties.geonadir:provided_by` | Workspace Owner → `User.full_name` else `username` — **can raise, see traps** | derived |
+| `properties.geonadir:captured_by` | `Dataset.data_captured_by` | direct |
+| `properties.geonadir:institution` | `Workspace.name` (or `Dataset.institution_name`) | direct |
+| `properties.geonadir:iucn_habitat` | `Dataset.category` M2M filtered against the IUCN vocab (`habitat.py`) | derived |
+| `properties.geonadir:manufacturer` | parse `EXIF:Make` from `Metadata.metadata` (first image) | if-present |
+| `properties.geonadir:camera_model` | parse `EXIF:Model` from `Metadata.metadata` | if-present |
+| `properties.geonadir:relative_altitude_m` | parse `XMP:RelativeAltitude` from `Metadata.metadata` | if-present |
+| `properties.geonadir:sensor_metadata_source` | constant `image_exif` when the EXIF blob is present | if-present |
+| asset presence (`orthomosaic`/`dsm`/`dtm`/`multispectral_orthomosaic`) | `Dataset.extra_json["has_ortho"|"has_dsm"|"has_dtm"|"has_multispec_ortho"]` | direct |
+| asset `file:size` | `Dataset.extra_json["ortho_size"|"dsm_size"|"dtm_size"|"multispec_ortho_size"|"raw_images_size"]` — **confirm MB vs bytes** | direct + transform |
+| `orthomosaic` `eo:bands` | convention `B1 red, B2 green, B3 blue (, B4 alpha)` from band count | derived |
+| `multispectral_orthomosaic` `eo:bands` | `Dataset.band_stats["multispec_ortho"]["band_descr"]` = `{common_name: 1-based index}`; sort by index → `B{i}` + `common_name` | derived |
+
+### Traps to encode in the publisher
+
+1. **bbox is not stored in STAC order.** `extra_json["bbox"]` is the raw
+   incoming array; the backend reorders it as `[b[1], b[0], b[3], b[2]]` to build
+   the polygon (`core_viewset.py`). STAC `bbox` = that reordered
+   `[west, south, east, north]`. Do not pass the stored array through untouched.
+   CRS is not recorded — assume WGS84 lon/lat.
+2. **Area units.** The key is literally `area_covered`; units are whatever the
+   raster-publish lambda posts. Confirm m² before emitting `geonadir:area_m2`.
+3. **Size units.** `extra_json` `*_size` values come from the lambda's MB
+   calculation (`bytes * 2**-20`). `file:size` (File extension) is **bytes** —
+   convert, or drop `file:size` if the source unit can't be verified.
+4. **Owner lookup can throw.** `provided_by` uses the `group="Owner"` query that
+   raises `MultipleObjectsReturned` on a duplicate active Owner (a known prod
+   signature). Catch per-dataset — one bad workspace must not abort the batch.
+5. **Habitat vs. user categories.** IUCN habitat is a `Category` M2M row
+   indistinguishable from user tags except by string — filter the dataset's
+   categories against the known IUCN vocabulary. Result may be 0, 1, or many →
+   `geonadir:iucn_habitat` is string-or-array.
+6. **Raw-only datasets have no bbox.** `bbox`/`has_*`/`gsd`/`area` are written by
+   raster-publish, which runs on the ortho. A public dataset with no processed
+   ortho has no bbox → no STAC geometry. Fall back to
+   `Dataset.latitude`/`longitude` (promoted from first-image EXIF) as a point, or
+   exclude such datasets from the STAC v1 set.
+7. **EXIF is first-image only.** `Metadata.metadata` holds the exiftool blob of
+   the first uploaded image. Fine for homogeneous surveys; note the assumption.
+
 ## Planned Tutorial Notebook
 
 GeoNadir expects to provide a Jupyter notebook with real examples after the
@@ -639,7 +706,7 @@ initial application stage.
 
 The notebook will demonstrate how to:
 
-- Open the GeoNadir Fair Data STAC catalog.
+- Open the GeoNadir FAIR Data STAC catalog.
 - Search by capture date and area of interest.
 - Filter by IUCN habitat classification.
 - Inspect item metadata and asset links.
