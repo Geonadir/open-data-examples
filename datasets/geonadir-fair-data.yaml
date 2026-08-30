@@ -4,7 +4,7 @@ Description: |
   <br/>
   GeoNadir Fair Data is an open collection of UAV (drone) survey datasets
   contributed through the GeoNadir platform and published as cloud-native
-  geospatial files with a STAC-compatible catalog.
+  geospatial files on Amazon S3.
   <br/>
   <br/>
   Each dataset represents one UAV survey. Every dataset provides a normalized
@@ -16,11 +16,22 @@ Description: |
   the full file.
   <br/>
   <br/>
-  Users discover datasets through a STAC-compatible catalog and can search by
-  capture date, upload date, spatial area of interest, and metadata fields such
-  as IUCN habitat classification. The collection includes only datasets that
-  GeoNadir is able to publish publicly under an open, no-fee license. Private
-  workspace data and unpublished datasets are out of scope for this collection.
+  The files are addressable directly on Amazon S3 by a stable key convention, so
+  the collection is fully usable today with standard tools such as boto3,
+  Rasterio, GDAL, and QGIS: list the datasets prefix, read each survey's
+  metadata file, and open its COGs by their known keys.
+  <br/>
+  <br/>
+  A STAC-compatible catalog for richer discovery — search by capture date,
+  upload date, spatial area of interest, and metadata fields such as IUCN
+  habitat classification — is planned and will be added after the initial
+  launch. It is not yet available, so tutorials and integrations should not
+  assume STAC is present; the direct-S3 access path above does not depend on it.
+  <br/>
+  <br/>
+  The collection includes only datasets that GeoNadir is able to publish
+  publicly under an open, no-fee license. Private workspace data and unpublished
+  datasets are out of scope for this collection.
 Documentation: https://github.com/Geonadir/open-data-examples/blob/main/OPEN_DATA_STRUCTURE.md
 Contact: joan@geonadir.com
 ManagedBy: "[GeoNadir](https://geonadir.com/)"
@@ -50,15 +61,18 @@ License: |
   https://creativecommons.org/licenses/by/4.0/
 Citation: 'GeoNadir Fair Data was accessed on DATE from https://registry.opendata.aws/geonadir-fair-data. GeoNadir. 2026. GeoNadir Fair Data: open UAV survey datasets.'
 RegistryEntryAdded: '2026-08-24'
-RegistryEntryLastModified: '2026-08-24'
+RegistryEntryLastModified: '2026-08-31'
 Resources:
-  - Description: GeoNadir Fair Data UAV survey datasets and STAC catalog (Cloud Optimized GeoTIFFs, raw image ZIPs, and item metadata)
+  - Description: GeoNadir Fair Data UAV survey datasets (Cloud Optimized GeoTIFFs, raw image ZIPs, and per-dataset JSON metadata)
     ARN: arn:aws:s3:::geonadir-fair-data
     Region: ap-southeast-2
     Type: S3 Bucket
     Explore:
       - '[Browse GeoNadir Fair Data](https://data.geonadir.com/fairgeo)'
-      - '[STAC catalog](https://data.geonadir.com/stac/collections/geonadir-fair-data)'
+      # STAC is not live yet. Re-add this Explore link only once
+      # https://data.geonadir.com/stac/collections/geonadir-fair-data returns a
+      # valid STAC collection (a dead link here would 404 on the registry page):
+      #   - '[STAC catalog](https://data.geonadir.com/stac/collections/geonadir-fair-data)'
 # DRAFT NOTE (remove before taking PR out of draft):
 #   1. Confirm the final bucket name once the AWS Open Data CloudFormation stack
 #      has been created in the dedicated open-data account. If the name differs
@@ -71,6 +85,9 @@ Resources:
 #          ARN: arn:aws:sns:ap-southeast-2:209003640346:<topic-name>
 #          Region: ap-southeast-2
 #          Type: SNS Topic
+#   3. STAC is NOT live at launch. The STAC catalog Explore link is commented out
+#      above, and the STAC tutorial will not run until the endpoint exists.
+#      Re-enable both once https://data.geonadir.com/stac/ serves the collection.
 DataAtWork:
   Tutorials:
     - Title: 'Get To Know A Dataset: GeoNadir Fair Data'
@@ -80,7 +97,7 @@ DataAtWork:
       AuthorURL: https://geonadir.com/
       Services:
         - Amazon S3
-    - Title: 'Get To Know A Dataset: GeoNadir Fair Data (STAC catalog)'
+    - Title: 'Get To Know A Dataset: GeoNadir Fair Data (STAC catalog — runs once the STAC endpoint is live)'
       URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
       NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
       AuthorName: GeoNadir
