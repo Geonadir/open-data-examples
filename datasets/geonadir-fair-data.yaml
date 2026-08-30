@@ -1,4 +1,4 @@
-Name: GeoNadir Fair Data
+Name: GeoNadir FAIR Data
 Description: |
   <br/>
   <br/>
@@ -61,7 +61,7 @@ License: |
   material for any purpose, provided you give appropriate credit to GeoNadir
   and the contributing data provider. Full license text is available at
   https://creativecommons.org/licenses/by/4.0/
-Citation: 'GeoNadir Fair Data was accessed on DATE from https://registry.opendata.aws/geonadir-fair-data. GeoNadir. 2026. GeoNadir FAIR Data: open drone mapping datasets.'
+Citation: 'GeoNadir FAIR Data was accessed on DATE from https://registry.opendata.aws/geonadir-fair-data. GeoNadir. 2026. GeoNadir FAIR Data: open drone mapping datasets.'
 RegistryEntryAdded: '2026-08-24'
 RegistryEntryLastModified: '2026-08-31'
 Resources:
@@ -70,7 +70,7 @@ Resources:
     Region: ap-southeast-2
     Type: S3 Bucket
     Explore:
-      - '[Browse GeoNadir Fair Data](https://data.geonadir.com/fairgeo)'
+      - '[Browse GeoNadir FAIR Data](https://data.geonadir.com/fairgeo)'
       # STAC is not live yet. Re-add this Explore link only once
       # https://data.geonadir.com/stac/collections/geonadir-fair-data returns a
       # valid STAC collection (a dead link here would 404 on the registry page):
@@ -83,7 +83,7 @@ Resources:
 #   2. The CloudFormation template also provisions an SNS topic for S3
 #      object-creation notifications. After the stack exists, add a second
 #      Resources entry for it, e.g.:
-#        - Description: New object notifications for GeoNadir Fair Data (Lambda and SQS protocols only)
+#        - Description: New object notifications for GeoNadir FAIR Data (Lambda and SQS protocols only)
 #          ARN: arn:aws:sns:ap-southeast-2:209003640346:<topic-name>
 #          Region: ap-southeast-2
 #          Type: SNS Topic

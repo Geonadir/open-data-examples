@@ -1,8 +1,8 @@
-# GeoNadir Fair Data Dataset Structure and Content
+# GeoNadir FAIR Data Dataset Structure and Content
 
 Status: Draft for AWS Open Data Sponsorship Program application
 
-This document describes the planned public structure for **GeoNadir Fair Data**,
+This document describes the planned public structure for **GeoNadir FAIR Data**,
 a proposed open-data collection of UAV survey datasets published through
 AWS-hosted cloud-native geospatial files and a STAC-compatible catalog.
 
@@ -18,7 +18,7 @@ GeoNadir's internal workspace, project, or permission model.
 
 ## Overview
 
-GeoNadir Fair Data will provide openly licensed UAV survey datasets contributed
+GeoNadir FAIR Data will provide openly licensed UAV survey datasets contributed
 through GeoNadir and structured for discovery, cloud-native access, and
 geospatial analysis.
 
@@ -127,7 +127,7 @@ QGIS, and cloud-native geospatial workflows without downloading the full file.
 
 ## STAC Model
 
-GeoNadir Fair Data will use the following STAC model:
+GeoNadir FAIR Data will use the following STAC model:
 
 ```text
 Catalog
@@ -154,7 +154,7 @@ geonadir-fair-data
 The collection title will be:
 
 ```text
-GeoNadir Fair Data
+GeoNadir FAIR Data
 ```
 
 The collection will describe open UAV survey datasets contributed through
@@ -166,7 +166,7 @@ Planned collection-level fields:
 | --- | --- |
 | `id` | `geonadir-fair-data` |
 | `type` | `Collection` |
-| `title` | `GeoNadir Fair Data` |
+| `title` | `GeoNadir FAIR Data` |
 | `description` | Public UAV survey datasets and related products contributed through GeoNadir |
 | `license` | `CC-BY-4.0` |
 | `extent.spatial` | Overall spatial extent of all published items |
@@ -462,7 +462,7 @@ will define their own band order at asset level.
 
 ## STAC Extensions
 
-GeoNadir Fair Data will use STAC extensions only where they add useful,
+GeoNadir FAIR Data will use STAC extensions only where they add useful,
 standardized meaning.
 
 Likely first-pass extensions:
@@ -706,7 +706,7 @@ initial application stage.
 
 The notebook will demonstrate how to:
 
-- Open the GeoNadir Fair Data STAC catalog.
+- Open the GeoNadir FAIR Data STAC catalog.
 - Search by capture date and area of interest.
 - Filter by IUCN habitat classification.
 - Inspect item metadata and asset links.

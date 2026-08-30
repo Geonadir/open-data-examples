@@ -1,6 +1,6 @@
-# GeoNadir Fair Data — Open Data documentation & examples
+# GeoNadir FAIR Data — Open Data documentation & examples
 
-This repository is the documentation and examples home for **GeoNadir Fair Data**,
+This repository is the documentation and examples home for **GeoNadir FAIR Data**,
 an open collection of UAV (drone) survey datasets contributed through GeoNadir
 and published through the [AWS Open Data Sponsorship Program](https://aws.amazon.com/opendata/open-data-sponsorship-program/).
 
@@ -27,7 +27,7 @@ STAC — STAC is an enhancement that may come online later than the data itself.
 | [`datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb`](datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb) | **"Get To Know A Dataset" (basic AWS)** — the primary tutorial. Uses **only S3** (`boto3` + `rasterio`): list surveys, read metadata, open COGs directly, NDVI worked example, community challenge. Runs the moment the bucket is live, no STAC needed. |
 | [`datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb`](datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb) | **"Get To Know A Dataset" (STAC)** — the same tour, but discovering surveys through the STAC catalog for richer search. For when the STAC endpoint is online. |
 
-> **Draft status.** GeoNadir Fair Data is mid-onboarding. Until the dedicated
+> **Draft status.** GeoNadir FAIR Data is mid-onboarding. Until the dedicated
 > AWS Open Data account's S3 bucket is live, the `s3://` and web URLs above are
 > provisional. In the notebooks, cells that need only the bucket are marked
 > `[RUNS AT LAUNCH]`; cells that need the STAC endpoint are marked `[NEEDS STAC]`.
