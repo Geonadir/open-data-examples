@@ -2,12 +2,12 @@ Name: GeoNadir Fair Data
 Description: |
   <br/>
   <br/>
-  GeoNadir Fair Data is an open collection of UAV (drone) survey datasets
+  GeoNadir FAIR Data is an open collection of uncrewed aerial vehicle (UAV or drone) mapping datasets
   contributed through the GeoNadir platform and published as cloud-native
   geospatial files on Amazon S3.
   <br/>
   <br/>
-  Each dataset represents one UAV survey. Every dataset provides a normalized
+  Each dataset represents one drone survey. Every dataset provides a normalized
   metadata file and a ZIP package of the original raw images. Where available,
   a dataset may also include an RGB orthomosaic, a multispectral orthomosaic,
   a Digital Surface Model (DSM), and a Digital Terrain Model (DTM), each stored
@@ -33,9 +33,9 @@ Description: |
   publicly under an open, no-fee license. Private workspace data and unpublished
   datasets are out of scope for this collection.
 Documentation: https://github.com/Geonadir/open-data-examples/blob/main/OPEN_DATA_STRUCTURE.md
-Contact: joan@geonadir.com
+Contact: opendata@geonadir.com
 ManagedBy: "[GeoNadir](https://geonadir.com/)"
-UpdateFrequency: New UAV survey datasets are added as they are contributed and cleared for open publication.
+UpdateFrequency: New drone mapping datasets are added as they are contributed and cleared for open publication.
 Tags:
   - aerial imagery
   - geospatial
@@ -53,17 +53,19 @@ Tags:
   - agriculture
   - coastal
   - sustainability
+  - drone
+  - UAV
 License: |
   This dataset is licensed under the Creative Commons Attribution 4.0
   International license (CC-BY-4.0). You are free to share and adapt the
   material for any purpose, provided you give appropriate credit to GeoNadir
   and the contributing data provider. Full license text is available at
   https://creativecommons.org/licenses/by/4.0/
-Citation: 'GeoNadir Fair Data was accessed on DATE from https://registry.opendata.aws/geonadir-fair-data. GeoNadir. 2026. GeoNadir Fair Data: open UAV survey datasets.'
+Citation: 'GeoNadir Fair Data was accessed on DATE from https://registry.opendata.aws/geonadir-fair-data. GeoNadir. 2026. GeoNadir FAIR Data: open drone mapping datasets.'
 RegistryEntryAdded: '2026-08-24'
 RegistryEntryLastModified: '2026-08-31'
 Resources:
-  - Description: GeoNadir Fair Data UAV survey datasets (Cloud Optimized GeoTIFFs, raw image ZIPs, and per-dataset JSON metadata)
+  - Description: GeoNadir FAIR Data drone mapping datasets (Cloud Optimized GeoTIFFs, raw image ZIPs, and per-dataset JSON metadata)
     ARN: arn:aws:s3:::geonadir-fair-data
     Region: ap-southeast-2
     Type: S3 Bucket
@@ -90,14 +92,14 @@ Resources:
 #      Re-enable both once https://data.geonadir.com/stac/ serves the collection.
 DataAtWork:
   Tutorials:
-    - Title: 'Get To Know A Dataset: GeoNadir Fair Data'
+    - Title: 'Get To Know A Dataset: GeoNadir FAIR Data'
       URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb
       NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb
       AuthorName: GeoNadir
       AuthorURL: https://geonadir.com/
       Services:
         - Amazon S3
-    - Title: 'Get To Know A Dataset: GeoNadir Fair Data (STAC catalog — runs once the STAC endpoint is live)'
+    - Title: 'Get To Know A Dataset: GeoNadir FAIR Data (STAC catalog — runs once the STAC endpoint is live)'
       URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
       NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
       AuthorName: GeoNadir
