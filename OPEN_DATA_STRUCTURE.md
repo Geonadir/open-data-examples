@@ -402,7 +402,7 @@ meaning.
 
 ```json
 "stac_extensions": [
-  "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+  "https://stac-extensions.github.io/eo/v2.0.0/schema.json",
   "https://stac-extensions.github.io/file/v2.1.0/schema.json",
   "https://stac-extensions.github.io/alternate-assets/v1.2.0/schema.json"
 ]
@@ -469,7 +469,7 @@ A condensed skeleton:
   "type": "Feature",
   "stac_version": "1.1.0",
   "stac_extensions": [
-    "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/eo/v2.0.0/schema.json",
     "https://stac-extensions.github.io/file/v2.1.0/schema.json",
     "https://stac-extensions.github.io/alternate-assets/v1.2.0/schema.json"
   ],
