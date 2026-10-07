@@ -7,123 +7,67 @@
     "https://stac-extensions.github.io/alternate-assets/v1.2.0/schema.json"
   ],
   "id": "12760-da193e26-2179-4545-b279-8e18eae5734e",
-  "collection": "geonadir-fair-data",
-  "bbox": [
-    151.0,
-    -34.0,
-    151.2,
-    -33.8
-  ],
+  "bbox": [151.0, -34.0, 151.2, -33.8],
   "geometry": {
     "type": "Polygon",
     "coordinates": [
       [
-        [
-          151.0,
-          -34.0
-        ],
-        [
-          151.2,
-          -34.0
-        ],
-        [
-          151.2,
-          -33.8
-        ],
-        [
-          151.0,
-          -33.8
-        ],
-        [
-          151.0,
-          -34.0
-        ]
+        [151.0, -34.0],
+        [151.2, -34.0],
+        [151.2, -33.8],
+        [151.0, -33.8],
+        [151.0, -34.0]
       ]
     ]
   },
   "properties": {
-    "title": "Example GeoNadir UAV survey",
-    "description": "Public UAV survey dataset contributed through GeoNadir.",
     "datetime": "2025-04-18T02:14:00Z",
     "created": "2025-04-20T08:31:00Z",
     "updated": "2025-05-02T03:12:00Z",
+    "title": "Example GeoNadir UAV survey",
+    "description": "Public UAV survey dataset contributed through GeoNadir.",
     "license": "CC-BY-4.0",
     "gsd": 0.026,
-    "geonadir:capture_datetime": "2025-04-18T02:14:00Z",
-    "geonadir:upload_datetime": "2025-04-20T08:31:00Z",
-    "geonadir:modified_datetime": "2025-05-02T03:12:00Z",
-    "geonadir:area_m2": 124300.0,
+    "instruments": ["M3M"],
+    "platform": "DJI M3M",
+    "providers": [
+      { "name": "Example field team", "roles": ["producer"] },
+      { "name": "Example Workspace", "roles": ["licensor"] },
+      { "name": "GeoNadir", "roles": ["processor", "host"], "url": "https://geonadir.com" }
+    ],
+    "geonadir:dataset_id": 12760,
     "geonadir:raw_image_count": 420,
-    "geonadir:iucn_habitat": "Forest",
-    "geonadir:provided_by": "Example Workspace Owner",
-    "geonadir:captured_by": "Example field team",
-    "geonadir:institution": "Example Workspace",
-    "geonadir:geometry_source": "bbox",
-    "geonadir:manufacturer": "DJI",
-    "geonadir:camera_model": "FC6310",
-    "geonadir:sensor_metadata_source": "image_exif",
-    "geonadir:relative_altitude_m": 90.5
+    "geonadir:area_m2": 124300.0,
+    "geonadir:relative_altitude_m": 90.5,
+    "geonadir:sensor_metadata_source": "first_image_exif",
+    "geonadir:location_name": "Example Bay, Australia",
+    "geonadir:tags": ["coastal", "mangrove"],
+    "geonadir:iucn_habitat": ["Forest"]
   },
-  "assets": {
-    "metadata": {
-      "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-metadata.json",
+  "links": [
+    {
+      "rel": "self",
       "type": "application/json",
-      "roles": [
-        "metadata"
-      ],
-      "title": "Dataset metadata",
-      "alternate": {
-        "s3": {
-          "href": "s3://geonadir-fair-data/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-metadata.json",
-          "alternate:name": "S3"
-        }
-      }
+      "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-metadata.json"
     },
-    "raw_images": {
-      "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-raw_images.zip",
-      "type": "application/zip",
-      "roles": [
-        "source"
-      ],
-      "title": "Original raw images",
-      "file:size": 5368709120,
-      "alternate": {
-        "s3": {
-          "href": "s3://geonadir-fair-data/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-raw_images.zip",
-          "alternate:name": "S3"
-        }
-      }
-    },
-    "orthomosaic": {
+    {
+      "rel": "via",
+      "type": "text/html",
+      "href": "https://data.geonadir.com/image-collection-details/12760"
+    }
+  ],
+  "assets": {
+    "ortho": {
       "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-rgb_ortho.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-      "roles": [
-        "data",
-        "visual"
-      ],
+      "roles": ["data", "visual"],
       "title": "RGB orthomosaic",
-      "file:size": 734003200,
-      "eo:bands": [
-        {
-          "name": "B1",
-          "common_name": "red",
-          "description": "Red"
-        },
-        {
-          "name": "B2",
-          "common_name": "green",
-          "description": "Green"
-        },
-        {
-          "name": "B3",
-          "common_name": "blue",
-          "description": "Blue"
-        },
-        {
-          "name": "B4",
-          "description": "Alpha"
-        }
+      "bands": [
+        { "name": "B1", "eo:common_name": "red" },
+        { "name": "B2", "eo:common_name": "green" },
+        { "name": "B3", "eo:common_name": "blue" }
       ],
+      "file:size": 734003200,
       "alternate": {
         "s3": {
           "href": "s3://geonadir-fair-data/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-rgb_ortho.tif",
@@ -131,45 +75,19 @@
         }
       }
     },
-    "multispectral_orthomosaic": {
+    "multispec_ortho": {
       "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-multispec_ortho.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-      "roles": [
-        "data"
-      ],
+      "roles": ["data"],
       "title": "Multispectral orthomosaic",
-      "file:size": 1073741824,
-      "eo:bands": [
-        {
-          "name": "B1",
-          "common_name": "red",
-          "description": "Red"
-        },
-        {
-          "name": "B2",
-          "common_name": "green",
-          "description": "Green"
-        },
-        {
-          "name": "B3",
-          "common_name": "blue",
-          "description": "Blue"
-        },
-        {
-          "name": "B4",
-          "common_name": "nir",
-          "description": "Near infrared"
-        },
-        {
-          "name": "B5",
-          "common_name": "rededge",
-          "description": "Red edge"
-        },
-        {
-          "name": "B6",
-          "description": "Alpha"
-        }
+      "bands": [
+        { "name": "B1", "eo:common_name": "red" },
+        { "name": "B2", "eo:common_name": "green" },
+        { "name": "B3", "eo:common_name": "blue" },
+        { "name": "B4", "eo:common_name": "nir" },
+        { "name": "B5", "eo:common_name": "rededge" }
       ],
+      "file:size": 1073741824,
       "alternate": {
         "s3": {
           "href": "s3://geonadir-fair-data/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-multispec_ortho.tif",
@@ -180,10 +98,7 @@
     "dsm": {
       "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-dsm.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-      "roles": [
-        "data",
-        "elevation"
-      ],
+      "roles": ["data", "elevation"],
       "title": "Digital Surface Model",
       "file:size": 268435456,
       "alternate": {
@@ -196,15 +111,25 @@
     "dtm": {
       "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-dtm.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-      "roles": [
-        "data",
-        "elevation"
-      ],
+      "roles": ["data", "elevation"],
       "title": "Digital Terrain Model",
       "file:size": 261095424,
       "alternate": {
         "s3": {
           "href": "s3://geonadir-fair-data/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-dtm.tif",
+          "alternate:name": "S3"
+        }
+      }
+    },
+    "raw_images": {
+      "href": "https://geonadir-fair-data.s3.ap-southeast-2.amazonaws.com/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-raw_images.zip",
+      "type": "application/zip",
+      "roles": ["source"],
+      "title": "Original raw images",
+      "file:size": 5368709120,
+      "alternate": {
+        "s3": {
+          "href": "s3://geonadir-fair-data/datasets/12760-da193e26-2179-4545-b279-8e18eae5734e/12760-raw_images.zip",
           "alternate:name": "S3"
         }
       }
