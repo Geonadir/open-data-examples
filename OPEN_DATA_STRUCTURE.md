@@ -267,38 +267,44 @@ omitted otherwise. `platform` is a vendor+model string such as `"DJI M3M"`.
 
 ## Band Metadata
 
-Band metadata follows the STAC 1.1 `bands` construct with EO common names.
+Band metadata follows the STAC 1.1 `bands` construct and is read from each
+GeoTIFF's own band table, so it always reflects the real file. Every band has:
 
-The band `name` uses uppercase identifiers (`B1`, `B2`, `B3`, …) matching the
-band order in the GeoTIFF; `eo:common_name` uses standard EO names such as
-`red`, `green`, `blue`, `nir`, `rededge`.
+- **`name`** — `B1`, `B2`, … in physical band order.
+- **`description`** — the band's human-readable name from the GeoTIFF (e.g.
+  `Red`, `NIR`, `Rededge705`, `Alpha`).
+- **`eo:common_name`** — a standard EO name (`red`, `green`, `blue`, `nir`,
+  `rededge`, `coastal`, …), included **only** when the band maps to one. Narrow
+  bands such as `Blue444` or `Rededge705` have no standard common name, so they
+  carry a `description` only.
 
-For an RGB orthomosaic:
+For an RGB orthomosaic (with an alpha band):
 
 ```json
 "bands": [
-  { "name": "B1", "eo:common_name": "red" },
-  { "name": "B2", "eo:common_name": "green" },
-  { "name": "B3", "eo:common_name": "blue" }
+  { "name": "B1", "description": "Red",   "eo:common_name": "red" },
+  { "name": "B2", "description": "Green", "eo:common_name": "green" },
+  { "name": "B3", "description": "Blue",  "eo:common_name": "blue" },
+  { "name": "B4", "description": "Alpha" }
 ]
 ```
 
-For a multispectral orthomosaic the band array follows the physical band order
-in the GeoTIFF — for example a DJI Mavic 3 Multispectral carrying red, green,
-blue, near-infrared, and red-edge bands:
+For a multispectral orthomosaic the band array follows the physical band order —
+for example a DJI Mavic 3 Multispectral carrying red, green, near-infrared, and
+red-edge bands plus an alpha band:
 
 ```json
 "bands": [
-  { "name": "B1", "eo:common_name": "red" },
-  { "name": "B2", "eo:common_name": "green" },
-  { "name": "B3", "eo:common_name": "blue" },
-  { "name": "B4", "eo:common_name": "nir" },
-  { "name": "B5", "eo:common_name": "rededge" }
+  { "name": "B1", "description": "Red",     "eo:common_name": "red" },
+  { "name": "B2", "description": "Green",   "eo:common_name": "green" },
+  { "name": "B3", "description": "NIR",     "eo:common_name": "nir" },
+  { "name": "B4", "description": "RedEdge", "eo:common_name": "rededge" },
+  { "name": "B5", "description": "Alpha" }
 ]
 ```
 
 The exact band set and order vary by sensor; always read `bands` from the asset
-metadata rather than assuming a fixed multispectral layout.
+metadata rather than assuming a fixed layout.
 
 ## Item Assets
 
@@ -336,9 +342,10 @@ as an asset. Example asset definition:
     "roles": ["data", "visual"],
     "title": "RGB orthomosaic",
     "bands": [
-      { "name": "B1", "eo:common_name": "red" },
-      { "name": "B2", "eo:common_name": "green" },
-      { "name": "B3", "eo:common_name": "blue" }
+      { "name": "B1", "description": "Red", "eo:common_name": "red" },
+      { "name": "B2", "description": "Green", "eo:common_name": "green" },
+      { "name": "B3", "description": "Blue", "eo:common_name": "blue" },
+      { "name": "B4", "description": "Alpha" }
     ],
     "file:size": 734003200,
     "alternate": {

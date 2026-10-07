@@ -63,9 +63,10 @@
       "roles": ["data", "visual"],
       "title": "RGB orthomosaic",
       "bands": [
-        { "name": "B1", "eo:common_name": "red" },
-        { "name": "B2", "eo:common_name": "green" },
-        { "name": "B3", "eo:common_name": "blue" }
+        { "name": "B1", "description": "Red", "eo:common_name": "red" },
+        { "name": "B2", "description": "Green", "eo:common_name": "green" },
+        { "name": "B3", "description": "Blue", "eo:common_name": "blue" },
+        { "name": "B4", "description": "Alpha" }
       ],
       "file:size": 734003200,
       "alternate": {
@@ -81,11 +82,11 @@
       "roles": ["data"],
       "title": "Multispectral orthomosaic",
       "bands": [
-        { "name": "B1", "eo:common_name": "red" },
-        { "name": "B2", "eo:common_name": "green" },
-        { "name": "B3", "eo:common_name": "blue" },
-        { "name": "B4", "eo:common_name": "nir" },
-        { "name": "B5", "eo:common_name": "rededge" }
+        { "name": "B1", "description": "Red", "eo:common_name": "red" },
+        { "name": "B2", "description": "Green", "eo:common_name": "green" },
+        { "name": "B3", "description": "NIR", "eo:common_name": "nir" },
+        { "name": "B4", "description": "RedEdge", "eo:common_name": "rededge" },
+        { "name": "B5", "description": "Alpha" }
       ],
       "file:size": 1073741824,
       "alternate": {
