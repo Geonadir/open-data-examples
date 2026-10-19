@@ -22,12 +22,6 @@ Description: |
   metadata file, and open its COGs by their known keys.
   <br/>
   <br/>
-  A STAC-compatible catalog for richer discovery — search by capture date,
-  upload date, spatial area of interest, and metadata fields such as IUCN
-  habitat classification — is planned and will be added after the initial
-  launch. 
-  <br/>
-  <br/>
   The collection includes only datasets that GeoNadir is able to publish
   publicly under the Creative Commons Attribution 4.0
   International license (CC-BY-4.0) license. Private workspace data and unpublished
@@ -41,7 +35,6 @@ Tags:
   - geospatial
   - earth observation
   - cog
-  - stac
   - dem
   - elevation
   - mapping
@@ -71,10 +64,6 @@ Resources:
     Type: S3 Bucket
     Explore:
       - '[Browse GeoNadir FAIR Data](https://data.geonadir.com/fairgeo)'
-      # STAC is not live yet. Re-add this Explore link only once
-      # https://data.geonadir.com/stac/collections/geonadir-fair-data returns a
-      # valid STAC collection (a dead link here would 404 on the registry page):
-      #   - '[STAC catalog](https://data.geonadir.com/stac/collections/geonadir-fair-data)'
 # DRAFT NOTE (remove before taking PR out of draft):
 #   1. Confirm the final bucket name once the AWS Open Data CloudFormation stack
 #      has been created in the dedicated open-data account. If the name differs
@@ -87,21 +76,11 @@ Resources:
 #          ARN: arn:aws:sns:ap-southeast-2:209003640346:<topic-name>
 #          Region: ap-southeast-2
 #          Type: SNS Topic
-#   3. STAC is NOT live at launch. The STAC catalog Explore link is commented out
-#      above, and the STAC tutorial will not run until the endpoint exists.
-#      Re-enable both once https://data.geonadir.com/stac/ serves the collection.
 DataAtWork:
   Tutorials:
     - Title: 'Get To Know A Dataset: GeoNadir FAIR Data'
       URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb
       NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-data/get-to-know-a-dataset.ipynb
-      AuthorName: GeoNadir
-      AuthorURL: https://geonadir.com/
-      Services:
-        - Amazon S3
-    - Title: 'Get To Know A Dataset: GeoNadir FAIR Data (STAC catalog — runs once the STAC endpoint is live)'
-      URL: https://github.com/Geonadir/open-data-examples/blob/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
-      NotebookURL: https://raw.githubusercontent.com/Geonadir/open-data-examples/main/datasets/geonadir-fair-data/get-to-know-a-dataset-stac.ipynb
       AuthorName: GeoNadir
       AuthorURL: https://geonadir.com/
       Services:
