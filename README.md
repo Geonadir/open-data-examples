@@ -1,10 +1,11 @@
 > [!WARNING]
-> **DRAFT BRANCH — the STAC catalog and STAC API are NOT working.**
-> This branch keeps the in-progress STAC material (STAC catalog docs, search
-> examples, queryables, and the `get-to-know-a-dataset-stac.ipynb` notebook).
-> None of the `https://data.geonadir.com/stac/...` endpoints are live, so the STAC
-> notebook and STAC search examples will fail. Do not link to or rely on this
-> branch. For the supported, working documentation use the
+> **DRAFT BRANCH — the STAC search API is NOT working.**
+> The **static STAC catalog is live** (browse only):
+> [`https://data.geonadir.com/stac/catalog.json`](https://data.geonadir.com/stac/catalog.json).
+> There is **no STAC API**: `https://data.geonadir.com/stac/search` returns 404, so
+> server-side search (by date, area, habitat), the queryables, the search examples, and
+> `get-to-know-a-dataset-stac.ipynb` (which uses `pystac_client` `.search()`) will fail.
+> Do not link to or rely on this branch. For the supported documentation use the
 > [`main`](https://github.com/Geonadir/open-data-examples/tree/main) branch
 > (plain S3 access only).
 
