@@ -1,3 +1,13 @@
+> [!WARNING]
+> **DRAFT BRANCH — the STAC catalog and STAC API are NOT working.**
+> This branch keeps the in-progress STAC material (STAC catalog docs, search
+> examples, queryables, and the `get-to-know-a-dataset-stac.ipynb` notebook).
+> None of the `https://data.geonadir.com/stac/...` endpoints are live, so the STAC
+> notebook and STAC search examples will fail. Do not link to or rely on this
+> branch. For the supported, working documentation use the
+> [`main`](https://github.com/Geonadir/open-data-examples/tree/main) branch
+> (plain S3 access only).
+
 # GeoNadir FAIR Data — Open Data documentation & examples
 
 This repository is the documentation and examples home for **GeoNadir FAIR Data**,

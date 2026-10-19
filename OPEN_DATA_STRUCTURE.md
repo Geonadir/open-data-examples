@@ -2,6 +2,8 @@
 
 Status: Draft for AWS Open Data Sponsorship Program application
 
+> **DRAFT — STAC is NOT working.** The STAC catalog/API at `https://data.geonadir.com/stac/` is not live. This content lives on the `draft/stac-catalog-not-live` branch only; the supported docs are on `main`.
+
 This document describes the planned public structure for **GeoNadir FAIR Data**,
 a proposed open-data collection of UAV survey datasets published through
 AWS-hosted cloud-native geospatial files and a STAC-compatible catalog.
