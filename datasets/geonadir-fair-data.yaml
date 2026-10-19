@@ -25,12 +25,12 @@ Description: |
   A STAC-compatible catalog for richer discovery — search by capture date,
   upload date, spatial area of interest, and metadata fields such as IUCN
   habitat classification — is planned and will be added after the initial
-  launch. It is not yet available, so tutorials and integrations should not
-  assume STAC is present; the direct-S3 access path above does not depend on it.
+  launch. 
   <br/>
   <br/>
   The collection includes only datasets that GeoNadir is able to publish
-  publicly under an open, no-fee license. Private workspace data and unpublished
+  publicly under the Creative Commons Attribution 4.0
+  International license (CC-BY-4.0) license. Private workspace data and unpublished
   datasets are out of scope for this collection.
 Documentation: https://github.com/Geonadir/open-data-examples/blob/main/OPEN_DATA_STRUCTURE.md
 Contact: opendata@geonadir.com
