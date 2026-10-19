@@ -4,7 +4,7 @@ Status: Draft for AWS Open Data Sponsorship Program application
 
 This document describes the planned public structure for **GeoNadir FAIR Data**,
 a proposed open-data collection of UAV survey datasets published through
-AWS-hosted cloud-native geospatial files and a STAC-compatible catalog.
+AWS-hosted cloud-native geospatial files.
 
 The intended collection ID is:
 
@@ -27,10 +27,10 @@ normalized metadata file and a ZIP package of the original raw images. Where
 available, a dataset may also include an RGB orthomosaic, multispectral
 orthomosaic, digital surface model, or digital terrain model.
 
-Users will discover datasets through a STAC-compatible catalog and access the
-files directly from AWS object storage. The catalog will allow users to find
-datasets by capture date, upload or publication date, location, and selected
-metadata fields such as IUCN habitat classification.
+Users access the files directly from AWS object storage through a simple,
+stable key convention. Each dataset's `metadata.json` carries its capture date,
+upload or publication date, location, and selected fields such as IUCN habitat
+classification, so datasets can be filtered by reading those files.
 
 ## Public Dataset Scope
 
@@ -41,59 +41,22 @@ Private workspace data, authenticated user data, unpublished datasets, and
 datasets without sufficient permission for open publication are out of scope
 for this public collection.
 
-If GeoNadir later exposes authenticated STAC access for private datasets, that
-will be handled as a separate catalog or separate collection. The AWS Open Data
-collection should remain public-only.
-
 ## Access Pattern
 
-GeoNadir intends to expose the public dataset through a STAC-compatible access
-layer.
-
-Planned public entry points:
-
-```text
-https://data.geonadir.com/stac/
-https://data.geonadir.com/stac/collections/geonadir-fair-data
-https://data.geonadir.com/stac/collections/geonadir-fair-data/items
-https://data.geonadir.com/stac/search
-```
-
-The STAC catalog is the discovery layer. The S3 bucket is the file storage
-layer. Users should not need to understand the internal bucket layout to search
-for datasets.
-
-### Two access paths (STAC is optional)
-
 The files are addressable directly on S3 through the stable
-`datasets/{item_id}/` key convention described below. This means the data is
-fully usable with plain AWS tooling (`boto3`, `rasterio`, GDAL, QGIS) **without
-STAC** — list the `datasets/` prefix, read a survey's `metadata.json`, and open
-its COGs by their known keys.
-
-STAC is a discovery **enhancement** layered on top of that S3 layout, providing
-search by date, area of interest, and habitat. GeoNadir may bring the STAC
-endpoint online **after** the data itself is published, so tutorials and
-integrations should not assume STAC is available at launch. The repository ships
-two tutorial notebooks accordingly: a basic-AWS/S3 notebook that runs against
-the bucket alone, and a STAC notebook for when the catalog is live.
+`datasets/{item_id}/` key convention described below. The data is fully usable
+with plain AWS tooling (`boto3`, `rasterio`, GDAL, QGIS): list the `datasets/`
+prefix, read a survey's `metadata.json`, and open its COGs by their known keys.
+The repository's tutorial notebook demonstrates this end to end.
 
 ## Planned S3 Layout
 
-The planned S3 layout is deliberately simple. Dataset discovery will happen
-through STAC, so the S3 prefixes do not need to encode country, region, year, or
-other search facets.
+The planned S3 layout is deliberately simple: one folder per dataset. Search
+facets such as country, region, or year live in each dataset's `metadata.json`
+rather than in the S3 prefixes.
 
 ```text
 s3://geonadir-fair-data/
-  stac/
-    catalog.json
-    collections/
-      geonadir-fair-data/
-        collection.json
-        items/
-          {item_id}.json
-
   datasets/
     {item_id}/                          # item_id = {dataset_id}-{uav_uid}
       {dataset_id}-metadata.json
@@ -104,7 +67,8 @@ s3://geonadir-fair-data/
       {dataset_id}-dtm.tif
 ```
 
-Only files that exist for a dataset will be listed as STAC assets. For example,
+Only files that exist for a dataset are published and listed as assets in its
+`metadata.json`. For example,
 a dataset without a DTM will not include a `dtm` asset.
 
 ### File naming convention
@@ -130,7 +94,7 @@ UUID, and remains stable even if other details change.
 
 | Asset | Format | Required | Description |
 | --- | --- | --- | --- |
-| `{dataset_id}-metadata.json` | JSON | Yes | Normalized dataset metadata (the STAC Item) |
+| `{dataset_id}-metadata.json` | JSON | Yes | Normalized dataset metadata |
 | `{dataset_id}-raw_images.zip` | ZIP of JPEG images | Yes | Original UAV images |
 | `{dataset_id}-rgb_ortho.tif` | Cloud Optimized GeoTIFF | Optional | RGB orthomosaic generated from UAV imagery |
 | `{dataset_id}-multispec_ortho.tif` | Cloud Optimized GeoTIFF | Optional | Multispectral orthomosaic, where available |
@@ -140,36 +104,18 @@ UUID, and remains stable even if other details change.
 Cloud Optimized GeoTIFFs can be read directly by tools such as GDAL, Rasterio,
 QGIS, and cloud-native geospatial workflows without downloading the full file.
 
-## STAC Model
-
-GeoNadir FAIR Data will use the following STAC model:
+## Metadata Model
 
 ```text
-Catalog
-  Collection: geonadir-fair-data
-    Item: one public GeoNadir dataset
-      Assets: metadata, raw images, and optional processed products
+Dataset: one public GeoNadir UAV survey
+  metadata.json: properties, attribution, and asset links
+  Assets: raw images and optional processed products
 ```
 
-One public GeoNadir dataset maps to one STAC Item. Each dataset's
-`metadata.json` **is** that STAC Item. A GeoNadir workspace or project can
-contain multiple datasets and internal application state; those internal
-concepts are not part of the public STAC contract.
-
-## Collection Definition
-
-| Field | Planned Value |
-| --- | --- |
-| `id` | `geonadir-fair-data` |
-| `type` | `Collection` |
-| `title` | `GeoNadir FAIR Data` |
-| `description` | Public UAV survey datasets and related products contributed through GeoNadir |
-| `license` | `CC-BY-4.0` |
-| `extent.spatial` | Overall spatial extent of all published items |
-| `extent.temporal` | Overall capture-date range of all published items |
-| `summaries` | Collection-wide value summaries for selected fields |
-| `item_assets` | Definitions of the asset keys that may appear on items |
-| `stac_extensions` | STAC extensions used by the collection or its item assets |
+One public GeoNadir dataset maps to one `metadata.json`, a GeoJSON Feature. A
+GeoNadir workspace or project can contain multiple datasets and internal
+application state; those internal concepts are not part of the public metadata
+contract.
 
 ## License and Attribution
 
@@ -179,13 +125,12 @@ The public collection uses:
 CC-BY-4.0
 ```
 
-Attribution is represented with the STAC-standard `providers` array, so generic
-STAC tooling reads it directly.
+Attribution is represented with a standard `providers` array.
 
 ### Attribution (`providers`)
 
 Each item lists the parties involved in producing and publishing the data, using
-standard STAC provider roles:
+standard provider roles:
 
 ```json
 "providers": [
@@ -206,7 +151,7 @@ metadata rather than verified authority records.
 
 ## Item Structure
 
-Each STAC Item represents one public GeoNadir dataset.
+Each `metadata.json` represents one public GeoNadir dataset.
 
 | Field | Description |
 | --- | --- |
@@ -220,13 +165,9 @@ Each STAC Item represents one public GeoNadir dataset.
 | `assets` | Downloadable or streamable files |
 | `links` | `self` (the item's own URL) and `via` (the GeoNadir dataset page) |
 
-When the STAC catalog is online it adds the `collection` and `root` links that
-tie each item into the catalog; the standalone `metadata.json` carries only the
-`self` and `via` links.
-
 ### Geometry and Bbox
 
-In STAC, `geometry` and `bbox` are different fields.
+`geometry` and `bbox` are different fields.
 
 `bbox` is the rectangular bounding box:
 
@@ -234,7 +175,7 @@ In STAC, `geometry` and `bbox` are different fields.
 [west, south, east, north]
 ```
 
-`geometry` is the GeoJSON geometry used for spatial search. GeoNadir publishes a
+`geometry` is the GeoJSON geometry of the survey. GeoNadir publishes a
 rectangular polygon covering the survey footprint, in WGS84 longitude/latitude,
 wound counter-clockwise per the GeoJSON right-hand rule.
 
@@ -244,7 +185,7 @@ wound counter-clockwise per the GeoJSON right-hand rule.
 | --- | --- | --- |
 | `title` | string | Human-readable dataset title |
 | `description` | string | Public dataset description |
-| `datetime` | datetime | STAC-standard capture datetime used for temporal search |
+| `datetime` | datetime | Capture datetime |
 | `created` | datetime | Upload or first publication datetime |
 | `updated` | datetime | Last metadata or asset modification datetime |
 | `license` | string | Item license (`CC-BY-4.0`) |
@@ -267,7 +208,7 @@ omitted otherwise. `platform` is a vendor+model string such as `"DJI M3M"`.
 
 ## Band Metadata
 
-Band metadata follows the STAC 1.1 `bands` construct and is read from each
+Band metadata is published as a `bands` array and is read from each
 GeoTIFF's own band table, so it always reflects the real file. Every band has:
 
 - **`name`** — `B1`, `B2`, … in physical band order.
@@ -308,7 +249,7 @@ metadata rather than assuming a fixed layout.
 
 ## Item Assets
 
-STAC assets are the downloadable or streamable files attached to an item.
+Assets are the downloadable or streamable files attached to an item.
 
 | Asset Key | Required | Type | Roles | Description |
 | --- | --- | --- | --- | --- |
@@ -364,41 +305,16 @@ A complete reference item is committed at
 ### Asset hrefs: `https://` primary, `s3://` alternate
 
 Asset `href` values use `https://` as the primary access method — what a browser, a
-notebook, and most STAC tooling expect, and the more accessible choice for a FAIR
-catalogue. The `s3://` form (which the AWS CLI and GDAL `/vsis3/` prefer) is carried
-alongside it through the STAC **alternate-assets** extension, so both access methods
+notebook, and most geospatial tooling expect, and the more accessible choice for
+FAIR data. The `s3://` form (which the AWS CLI and GDAL `/vsis3/` prefer) is carried
+alongside it through the **alternate-assets** extension, so both access methods
 are published without forcing a choice. Both URLs are anonymously readable on the
 public-read bucket, and the COGs serve HTTP range requests over `https://` as well as
 `s3://`, so a client can stream a window or a single overview by either path.
 
-## Collection Summaries
+## Metadata Extensions
 
-Collection summaries describe expected values or ranges across all items in the
-collection. They help users understand what fields exist without inspecting
-every item.
-
-Planned summaries for the first public version:
-
-```json
-"summaries": {
-  "license": ["CC-BY-4.0"],
-  "gsd": { "minimum": 0.0, "maximum": 1.0 },
-  "geonadir:area_m2": { "minimum": 0.0, "maximum": 100000000.0 },
-  "geonadir:relative_altitude_m": { "minimum": 0.0, "maximum": 1000.0 },
-  "geonadir:iucn_habitat": [
-    "Forest", "Savanna", "Shrubland", "Grassland", "Wetlands", "Rocky",
-    "Desert", "Neritic", "Oceanic", "Deep ocean floor", "Intertidal",
-    "Artificial - terrestrial", "Other"
-  ]
-}
-```
-
-The numeric range values above are illustrative. The final `minimum` and
-`maximum` values will be calculated from the first public publication set.
-
-## STAC Extensions
-
-GeoNadir FAIR Data uses STAC extensions only where they add useful, standardized
+GeoNadir FAIR Data uses metadata extensions only where they add useful, standardized
 meaning.
 
 | Extension | Why it is useful |
@@ -419,22 +335,9 @@ Projection metadata is not duplicated in the item properties. Each GeoTIFF
 contains its own coordinate reference system and geotransform, which users can
 inspect directly with GDAL, Rasterio, or QGIS.
 
-## Queryable Fields
+## Example Use Cases
 
-The first public STAC API keeps queryables minimal and reliable.
-
-| Queryable | Description |
-| --- | --- |
-| `datetime` | Capture datetime |
-| `geonadir:iucn_habitat` | IUCN habitat classification |
-| `geometry` | Spatial intersection using the item geometry |
-
-Optional later queryables: `gsd`, `geonadir:area_m2`,
-`geonadir:raw_image_count`, `platform`.
-
-## Example Search Use Cases
-
-Users should be able to ask questions such as:
+Users can, for example:
 
 - Find public UAV survey datasets captured within a date range.
 - Find datasets uploaded after a specific date.
@@ -443,27 +346,8 @@ Users should be able to ask questions such as:
 - Load an orthomosaic COG directly into GDAL, Rasterio, QGIS, or another
   cloud-native geospatial tool when that asset is available.
 
-Example conceptual STAC search request:
-
-```json
-{
-  "collections": ["geonadir-fair-data"],
-  "datetime": "2024-01-01T00:00:00Z/2024-12-31T23:59:59Z",
-  "intersects": {
-    "type": "Polygon",
-    "coordinates": [
-      [
-        [151.0, -34.0],
-        [151.2, -34.0],
-        [151.2, -33.8],
-        [151.0, -33.8],
-        [151.0, -34.0]
-      ]
-    ]
-  },
-  "filter": "geonadir:iucn_habitat = 'Forest'"
-}
-```
+Filtering works by listing the `datasets/` prefix and reading each dataset's
+small `metadata.json`.
 
 ## Example Item Skeleton
 
@@ -525,11 +409,11 @@ A condensed skeleton:
 
 ## Planned Tutorial Notebook
 
-GeoNadir expects to provide Jupyter notebooks with real examples after the
-initial application stage. The notebooks demonstrate how to:
+GeoNadir expects to provide a Jupyter notebook with real examples after the
+initial application stage. The notebook demonstrates how to:
 
-- Open the GeoNadir FAIR Data STAC catalog (or the S3 bucket directly).
-- Search by capture date and area of interest.
+- Open the GeoNadir FAIR Data S3 bucket directly.
+- Filter by capture date and area of interest.
 - Filter by IUCN habitat classification.
 - Inspect item metadata and asset links.
 - Open an orthomosaic COG directly from S3 when that asset is available.
